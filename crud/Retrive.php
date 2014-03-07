@@ -5,7 +5,7 @@ try
 {
 	$webService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
 	// Here we set the option array for the Webservice : we want customers resources
-	$opt['resource'] = 'customers';
+	$opt['resource'] = $_GET['resource'];
 	// We set an id if we want to retrieve infos from a customer
 	if (isset($_GET['id']))
 	{

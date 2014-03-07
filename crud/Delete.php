@@ -8,7 +8,7 @@ if (isset($_GET['id']))
 	try
 	{		
 		// Call for a deletion, we specify the resource name and the id of the resource in order to delete the item
-		$webService->delete(array('resource' => 'customers', 'id' => intval($_GET['id'])));
+		$webService->delete(array('resource' => $_GET['resource'], 'id' => intval($_GET['id'])));
 		// If there's an error we throw an exception
 		echo 'Successfully deleted';
 	}

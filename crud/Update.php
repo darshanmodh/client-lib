@@ -4,7 +4,7 @@ require_once('../Connection.php');
 try
 {
 	$custwebService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
-	$opt = array('resource' => 'customers');
+	$opt = array('resource' => $_GET['resource']);
 	if (isset($_GET['id']))
 		$opt['id'] = $_GET['id'];
 	$xml = $custwebService->get($opt);
@@ -47,7 +47,7 @@ catch (PrestaShopWebserviceException $e)
 
 	try
 	{
-		$opt = array('resource' => 'customers');			
+		$opt = array('resource' => $_GET['resource']);			
 			$opt['putXml'] = $xml->asXML();
 			$opt['id'] = $_GET['id'];
 			$xml = $custwebService->edit($opt);
@@ -59,8 +59,8 @@ catch (PrestaShopWebserviceException $e)
 	{
 		// Here we are dealing with errors
 		$trace = $ex->getTrace();
-		if ($trace[0]['args'][0] == 404) echo 'Bad IDsanket';
+		if ($trace[0]['args'][0] == 404) echo 'Bad ID';
 		else if ($trace[0]['args'][0] == 401) echo 'Bad auth kdey';
-		else echo 'Other errorsanket<br />'.$ex->getMessage();
+		else echo 'Other error<br />'.$ex->getMessage();
 	}
 ?>

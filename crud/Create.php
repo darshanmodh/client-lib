@@ -3,14 +3,19 @@ require_once('../Connection.php');
 // Here we use the WebService to get the schema of "customers" resource
 try
 {
-	$custwebService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
-	$opt = array('resource' => 'customers');
+    $custwebService = new PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, DEBUG);
+        if(isset($_GET['resource']))
+        {         
+            $opt = array('resource' => $_GET['resource']);            
+            $xml = $custwebService->get(array('url' => PS_SHOP_PATH.'/api/'.$_GET['resource'].'?schema=blank'));           
+            $resources = $xml->children()->children();
 	
-	$xml = $custwebService->get(array('url' => PS_SHOP_PATH.'/api/customers?schema=blank'));
-	
-	$resources = $xml->children()->children();
-	
-	$Cxml =simplexml_load_file("php://input");	
+            $Cxml =simplexml_load_file("php://input");	
+        }
+        else {
+            echo 'Resource is not set.';
+            exit();
+        }
 }
 catch (PrestaShopWebserviceException $e)
 {
@@ -40,17 +45,15 @@ catch (PrestaShopWebserviceException $e)
 
 	try
 	{
-		$opt = array('resource' => 'customers');
+		$opt = array('resource' => $_GET['resource']);
 		
 			$opt['postXml'] = $xml->asXML();
-			$xml = $custwebService->add($opt);
-			$resources = $xml->children()->children();
+			$xml = $custwebService->add($opt);			
+                        $resources = $xml->children()->children();
 			foreach($resources as $child=>$ch)
 			{
 				echo $child . ": " . $ch . "<br>";
-			}
-			echo "Successfully added.";
-
+			}                        			
 	}
 	catch (PrestaShopWebserviceException $ex)
 	{

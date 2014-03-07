@@ -3,7 +3,7 @@ require_once('../Connection.php');
 try
 {	
 	// Here we set the option array for the Webservice : we want customers resources
-	$opt['resource'] = 'customers';
+	$opt['resource'] = $_GET['resource'];
 	// We set all ids from customer resource
 	
 	$xml = $webService->get($opt);	
